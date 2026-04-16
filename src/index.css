@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
 
@@ -18,11 +16,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #f1f5f9;
-  background-image: 
-    radial-gradient(at 40% 20%, hsla(228,100%,74%,0.15) 0px, transparent 50%),
-    radial-gradient(at 80% 0%, hsla(189,100%,56%,0.15) 0px, transparent 50%),
-    radial-gradient(at 0% 50%, hsla(355,100%,93%,0.2) 0px, transparent 50%);
-  background-attachment: fixed;
 }
 
 /* Custom Scrollbar */
@@ -38,16 +31,14 @@ body {
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #ef4444; /* red interaction */
 }
 
 @media print {
   body {
     background-color: white;
-    background-image: none;
   }
   .no-print {
     display: none !important;
   }
 }
-
