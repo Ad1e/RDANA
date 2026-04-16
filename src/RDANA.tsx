@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import './App.css';
+import './RDANA.css';
 import BsuLogo from './assets/bsu-logo.png';
 
 interface RDANAFormData {
@@ -109,7 +109,7 @@ const STATUS_CONFIG: Record<string, any> = {
   Red: { color: "#dc2626", label: "UNSAFE", sub: "Do Not Enter", bgLight: "#fef2f2" },
 };
 
-export default function App() {
+export default function RDANA() {
   const [form, setForm] = useState<RDANAFormData>(defaultForm);
   const [view, setView] = useState<'form' | 'report'>('form');
   const [step, setStep] = useState(0);
