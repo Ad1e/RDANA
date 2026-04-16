@@ -131,7 +131,7 @@ export default function App() {
   const getSeverityColor = (level: string) => {
     if (level === 'SEVERE') return 'bg-red-500 border-red-500 text-white';
     if (level === 'MODERATE') return 'bg-amber-500 border-amber-500 text-white';
-    if (level === 'MINOR') return 'bg-blue-500 border-blue-500 text-white';
+    if (level === 'MINOR') return 'bg-emerald-500 border-emerald-500 text-white';
     return 'bg-slate-200 border-slate-300 text-slate-700';
   };
 
@@ -288,7 +288,7 @@ export default function App() {
                 <tr>
                   <th className="text-slate-500 text-xs font-black uppercase tracking-widest py-4 px-6 w-2/5 border-b border-red-100">Condition</th>
                   {SEVERITY_LEVELS.map(level => (
-                    <th key={level} className={`text-center text-xs font-black uppercase tracking-widest py-4 border-b border-red-100 w-1/5 ${level === 'SEVERE' ? 'text-red-600' : level === 'MODERATE' ? 'text-amber-600' : level === 'MINOR' ? 'text-blue-600' : 'text-slate-400'
+                    <th key={level} className={`text-center text-xs font-black uppercase tracking-widest py-4 border-b border-red-100 w-1/5 ${level === 'SEVERE' ? 'text-red-600' : level === 'MODERATE' ? 'text-amber-600' : level === 'MINOR' ? 'text-emerald-600' : 'text-slate-400'
                       }`}>{level}</th>
                   ))}
                 </tr>
@@ -313,11 +313,11 @@ export default function App() {
                             <div className={`w-12 h-10 rounded-xl flex items-center justify-center border-2 transition-all duration-200 ${isSelected
                               ? (level === 'SEVERE' ? 'bg-red-50 border-red-500 shadow-sm shadow-red-200' :
                                 level === 'MODERATE' ? 'bg-amber-50 border-amber-500 shadow-sm shadow-amber-200' :
-                                  level === 'MINOR' ? 'bg-blue-50 border-blue-500 shadow-sm shadow-blue-200' :
+                                  level === 'MINOR' ? 'bg-emerald-50 border-emerald-500 shadow-sm shadow-emerald-200' :
                                     'bg-slate-100 border-slate-400 shadow-sm')
                               : 'bg-white border-slate-200 group-hover/row:border-slate-300'
                               }`}>
-                              <div className={`w-2.5 h-2.5 rounded-full transition-all ${isSelected ? (level === 'N/A' ? 'bg-slate-500' : level === 'SEVERE' ? 'bg-red-500' : level === 'MODERATE' ? 'bg-amber-500' : 'bg-blue-500') : 'opacity-0'
+                              <div className={`w-2.5 h-2.5 rounded-full transition-all ${isSelected ? (level === 'N/A' ? 'bg-slate-500' : level === 'SEVERE' ? 'bg-red-500' : level === 'MODERATE' ? 'bg-amber-500' : 'bg-emerald-500') : 'opacity-0'
                                 }`} />
                             </div>
                             <input type="radio" className="hidden"
@@ -401,12 +401,86 @@ export default function App() {
               <input type="text" className="flex-1 bg-transparent border-b-2 border-slate-200 focus:border-red-500 outline-none px-2 py-1 text-sm font-bold text-red-900"
                 value={form.restrictions.briefEntryText} onChange={e => updateNested('restrictions', 'briefEntryText', e.target.value)} />
             </div>
+
+            <div className="flex flex-col sm:flex-row sm:items-start gap-3">
+              <label className="flex items-start gap-3 cursor-pointer group shrink-0 mb-1 sm:mb-0">
+                <div className={`w-5 h-5 rounded flex items-center justify-center transition-colors mt-0.5 ${form.restrictions.doNotUseFlooded ? 'bg-gradient-to-br from-red-500 to-red-600 shadow-sm' : 'border-2 border-slate-300 bg-white group-hover:border-red-300'}`}>
+                  {form.restrictions.doNotUseFlooded && <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
+                </div>
+                <input type="checkbox" className="hidden" checked={form.restrictions.doNotUseFlooded} onChange={e => updateNested('restrictions', 'doNotUseFlooded', e.target.checked)} />
+                <span className="text-sm font-bold text-slate-700 max-w-sm leading-tight">Do not use flooded/damaged appliances, devices or services until recertified</span>
+              </label>
+            </div>
+
+            <div className="flex flex-col sm:flex-row sm:items-end gap-3">
+              <label className="flex items-center gap-3 cursor-pointer group shrink-0 mb-1 sm:mb-0">
+                <div className={`w-5 h-5 rounded flex items-center justify-center transition-colors ${form.restrictions.otherRestrictions ? 'bg-gradient-to-br from-red-500 to-red-600 shadow-sm' : 'border-2 border-slate-300 bg-white group-hover:border-red-300'}`}>
+                  {form.restrictions.otherRestrictions && <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
+                </div>
+                <input type="checkbox" className="hidden" checked={form.restrictions.otherRestrictions} onChange={e => updateNested('restrictions', 'otherRestrictions', e.target.checked)} />
+                <span className="text-sm font-bold text-slate-700">Other restrictions:</span>
+              </label>
+              <input type="text" className="flex-1 bg-transparent border-b-2 border-slate-200 focus:border-red-500 outline-none px-2 py-1 text-sm font-bold text-red-900"
+                value={form.restrictions.otherRestrictionsText} onChange={e => updateNested('restrictions', 'otherRestrictionsText', e.target.value)} />
+            </div>
           </div>
 
           <div className="mt-8 pt-6 border-t border-slate-100 flex flex-col sm:flex-row gap-3 items-start">
             <span className="text-sm font-bold text-slate-700 mt-2 shrink-0">General Comments:</span>
             <textarea className="w-full border-2 border-slate-200 focus:border-red-500 rounded-xl outline-none resize-none px-4 py-3 text-sm leading-relaxed bg-white shadow-sm font-medium" rows={3}
               value={form.comments} onChange={e => update('comments', e.target.value)} placeholder="Enter general comments here..." />
+          </div>
+
+          <h3 className="text-sm font-black text-slate-800 uppercase tracking-wider mt-12 mb-6 pb-2 border-b border-slate-100">Further Actions</h3>
+          <div className="space-y-5">
+            <div className="flex flex-col sm:flex-row sm:items-end gap-3">
+              <label className="flex items-center gap-3 cursor-pointer group shrink-0 mb-1 sm:mb-0">
+                <div className={`w-5 h-5 rounded flex items-center justify-center transition-colors ${form.furtherActions.barricadesNeeded ? 'bg-gradient-to-br from-red-500 to-red-600 shadow-sm' : 'border-2 border-slate-300 bg-white group-hover:border-red-300'}`}>
+                  {form.furtherActions.barricadesNeeded && <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
+                </div>
+                <input type="checkbox" className="hidden" checked={form.furtherActions.barricadesNeeded} onChange={e => updateNested('furtherActions', 'barricadesNeeded', e.target.checked)} />
+                <span className="text-sm font-bold text-slate-700">Barricades needed in following areas:</span>
+              </label>
+              <input type="text" className="flex-1 bg-transparent border-b-2 border-slate-200 focus:border-red-500 outline-none px-2 py-1 text-sm font-bold text-red-900"
+                value={form.furtherActions.barricadesText} onChange={e => updateNested('furtherActions', 'barricadesText', e.target.value)} />
+            </div>
+
+            <div className="flex flex-col sm:flex-row sm:items-center gap-6 pt-2">
+              <span className="text-sm font-bold text-slate-700 shrink-0">Detailed Evaluation rec:</span>
+              <div className="flex gap-6 flex-wrap">
+                {[
+                  { id: 'evalStructural', label: 'Structural' },
+                  { id: 'evalGeotechnical', label: 'Geotechnical' },
+                  { id: 'evalOther', label: 'Other' }
+                ].map(item => (
+                  <label key={item.id} className="flex items-center gap-2 cursor-pointer group">
+                    <div className={`w-4 h-4 rounded-sm flex items-center justify-center transition-colors ${form.furtherActions[item.id as keyof typeof form.furtherActions] ? 'bg-red-500' : 'border border-slate-300 bg-white group-hover:border-red-300'}`}>
+                      {form.furtherActions[item.id as keyof typeof form.furtherActions] && <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
+                    </div>
+                    <input type="checkbox" className="hidden" checked={!!form.furtherActions[item.id as keyof typeof form.furtherActions]} onChange={e => updateNested('furtherActions', item.id, e.target.checked)} />
+                    <span className="text-sm font-bold text-slate-600">{item.label}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+             <div className="flex flex-col sm:flex-row sm:items-end gap-3 pt-2">
+              <label className="flex items-center gap-3 cursor-pointer group shrink-0 mb-1 sm:mb-0">
+                <div className={`w-5 h-5 rounded flex items-center justify-center transition-colors ${form.furtherActions.otherRecommendations ? 'bg-gradient-to-br from-red-500 to-red-600 shadow-sm' : 'border-2 border-slate-300 bg-white group-hover:border-red-300'}`}>
+                  {form.furtherActions.otherRecommendations && <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
+                </div>
+                <input type="checkbox" className="hidden" checked={form.furtherActions.otherRecommendations} onChange={e => updateNested('furtherActions', 'otherRecommendations', e.target.checked)} />
+                <span className="text-sm font-bold text-slate-700">Other recommendations:</span>
+              </label>
+              <input type="text" className="flex-1 bg-transparent border-b-2 border-slate-200 focus:border-red-500 outline-none px-2 py-1 text-sm font-bold text-red-900"
+                value={form.furtherActions.otherRecommendationsText} onChange={e => updateNested('furtherActions', 'otherRecommendationsText', e.target.value)} />
+            </div>
+
+            <div className="pt-2 flex flex-col sm:flex-row gap-3 items-start">
+              <span className="text-sm font-bold text-slate-700 mt-2 shrink-0">Action Comments:</span>
+              <textarea className="w-full border-2 border-slate-200 focus:border-red-500 rounded-xl outline-none resize-none px-4 py-3 text-sm leading-relaxed bg-white shadow-sm font-medium" rows={2}
+                value={form.furtherActions.commentsFurther} onChange={e => updateNested('furtherActions', 'commentsFurther', e.target.value)} placeholder="Enter further action comments..." />
+            </div>
           </div>
 
           <div className="mt-8 pt-6 border-t border-slate-100 flex justify-between items-center bg-red-50 p-6 rounded-2xl border border-red-100">
@@ -492,7 +566,7 @@ export default function App() {
     const config = STATUS_CONFIG[form.posting] || STATUS_CONFIG.Green;
 
     return (
-      <div className="min-h-screen bg-slate-100 px-4 py-8 md:py-12 animate-in fade-in slide-in-from-bottom-8 duration-500">
+      <div className="min-h-screen bg-slate-100 px-4 py-8 md:py-12 print:bg-white print:p-0 print:m-0 animate-in fade-in slide-in-from-bottom-8 duration-500">
         <div className="max-w-4xl mx-auto flex justify-between items-center mb-6 print:hidden">
           <button onClick={() => setView('form')} className="px-5 py-2.5 rounded-xl border border-slate-300 text-slate-700 font-bold text-sm bg-white hover:bg-slate-50 transition-colors">
             ← Edit Form
@@ -502,13 +576,13 @@ export default function App() {
           </button>
         </div>
 
-        <div className="max-w-4xl mx-auto bg-white border border-slate-200 overflow-hidden shadow-lg print:shadow-none print:border-none print:bg-white print:max-w-none">
+        <div className="max-w-4xl mx-auto bg-white border border-slate-200 overflow-hidden shadow-lg print:shadow-none print:border-none print:bg-transparent print:max-w-none print:w-full print:m-0 print:p-0">
 
           {/* Header */}
-          <div className="bg-white px-10 pt-10 pb-6 border-b-2 border-slate-800 print:px-0 print:py-4 print:border-b">
+          <div className="bg-white px-10 pt-10 pb-6 border-b-2 border-slate-800 print:px-8 print:pt-6 print:pb-4 print:border-b-2">
             <div className="flex justify-between items-start">
               <div className="flex items-start gap-6 print:gap-4">
-                <img src={BsuLogo} alt="BSU Logo" className="h-16 w-auto object-contain print:h-12" />
+                <img src={BsuLogo} alt="BSU Logo" className="h-16 w-auto object-contain print:h-10" />
                 <div>
                   <div className="text-[10px] font-bold text-slate-500 tracking-widest uppercase mb-2 print:text-black print:mb-1">Official Document</div>
                   <h1 className="text-3xl font-black text-slate-900 tracking-tight mb-1 print:text-black print:text-xl">Rapid Damage Assessment</h1>
@@ -527,7 +601,7 @@ export default function App() {
               )}
             </div>
 
-            <div className="w-full flex gap-8 md:gap-12 mt-8 pt-6 border-t border-slate-100 print:border-t print:mt-4 print:gap-6">
+            <div className="w-full flex gap-8 md:gap-12 mt-8 pt-6 border-t border-slate-100 print:border-t print:mt-4 print:pt-2 print:gap-6">
               <div><div className="text-[9px] font-black tracking-widest text-slate-400 uppercase pb-1 print:text-slate-500 print:pb-0">Date</div><div className="text-sm font-bold text-slate-800 print:text-xs">{form.inspectionDate || '—'}</div></div>
               <div><div className="text-[9px] font-black tracking-widest text-slate-400 uppercase pb-1 print:text-slate-500 print:pb-0">Time</div><div className="text-sm font-bold text-slate-800 print:text-xs">{form.time || '—'}</div></div>
               <div className="flex-1 max-w-[200px]"><div className="text-[9px] font-black tracking-widest text-slate-400 uppercase pb-1 print:text-slate-500 print:pb-0">Inspector</div><div className="text-sm font-bold text-slate-800 truncate pr-4 print:text-xs" title={form.inspector}>{form.inspector || '—'}</div></div>
@@ -535,14 +609,14 @@ export default function App() {
             </div>
           </div>
 
-          <div className="p-10 space-y-10 print:p-6 print:space-y-6 print:mt-2">
+          <div className="p-10 space-y-10 print:p-8 print:py-6 print:space-y-4">
 
             {/* Section 1 */}
             <div>
-              <div className="flex items-center gap-3 mb-4 print:mb-2">
+              <div className="flex items-center gap-3 mb-4 print:mb-1">
                 <h3 className="text-xs font-black text-slate-800 tracking-widest uppercase border-b-2 border-slate-200 pb-1 w-full print:text-[10px]">Section 1 — Building Description</h3>
               </div>
-              <div className="grid grid-cols-2 gap-4 print:gap-3">
+              <div className="grid grid-cols-2 gap-4 print:gap-2">
                 {[
                   { label: 'Building Name', value: form.buildingName },
                   { label: 'Primary Occupancy', value: form.primaryOccupancy.join(', ') || form.otherOccupancy },
@@ -551,7 +625,7 @@ export default function App() {
                   { label: 'Inspection Type', value: form.areasInspected },
                   { label: 'Estimated Damage', value: `${form.damagePercentage}%` },
                 ].map(item => (
-                  <div key={item.label} className="border border-slate-200 rounded-lg p-4 break-inside-avoid print:p-3">
+                  <div key={item.label} className="border border-slate-200 rounded-lg p-4 break-inside-avoid print:p-2">
                     <div className="text-[9px] font-black text-slate-500 tracking-widest uppercase mb-1 print:text-[8px]">{item.label}</div>
                     <div className="text-sm font-bold text-slate-900 print:text-xs">{item.value || '—'}</div>
                   </div>
@@ -561,16 +635,16 @@ export default function App() {
 
             {/* Section 2 */}
             <div className="break-inside-avoid">
-              <div className="flex items-center gap-3 mb-4 print:mb-2">
+              <div className="flex items-center gap-3 mb-4 print:mb-1">
                 <h3 className="text-xs font-black text-slate-800 tracking-widest uppercase border-b-2 border-slate-200 pb-1 w-full print:text-[10px]">Section 2 — Evaluation Matrix</h3>
               </div>
               <div className="border border-slate-200 rounded-lg overflow-hidden">
                 <table className="w-full text-sm print:text-xs">
                   <thead className="bg-slate-50 border-b border-slate-200 print:bg-slate-50">
                     <tr>
-                      <th className="text-left font-black text-slate-700 text-[9px] tracking-widest uppercase py-3 px-4 print:py-2 print:px-3">Condition</th>
-                      <th className="text-center font-black text-slate-700 text-[9px] tracking-widest uppercase py-3 px-4 print:py-2 print:px-3">Severity</th>
-                      <th className="text-center font-black text-slate-700 text-[9px] tracking-widest uppercase py-3 px-4 print:py-2 print:px-3">Level</th>
+                      <th className="text-left font-black text-slate-700 text-[9px] tracking-widest uppercase py-3 px-4 print:py-1 print:px-2">Condition</th>
+                      <th className="text-center font-black text-slate-700 text-[9px] tracking-widest uppercase py-3 px-4 print:py-1 print:px-2">Severity</th>
+                      <th className="text-center font-black text-slate-700 text-[9px] tracking-widest uppercase py-3 px-4 print:py-1 print:px-2">Level</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
@@ -578,19 +652,19 @@ export default function App() {
                       const level = form.evaluation[cond.id];
                       return (
                         <tr key={cond.id} className="bg-white">
-                          <td className="py-3 px-4 font-bold text-slate-800 border-r border-slate-100 w-1/2 print:py-2 print:px-3 print:text-[10px]">
+                          <td className="py-3 px-4 font-bold text-slate-800 border-r border-slate-100 w-1/2 print:py-1 print:px-2 print:text-[10px]">
                             {cond.label}
                           </td>
-                          <td className="py-3 px-4 w-1/3 print:py-2 print:px-3">
+                          <td className="py-3 px-4 w-1/3 print:py-1 print:px-2">
                             <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden print:h-1.5 print:bg-slate-200">
-                              <div className={`h-full transition-all print:bg-black ${level === 'SEVERE' ? 'w-full bg-red-500' :
+                              <div className={`h-full transition-all ${level === 'SEVERE' ? 'w-full bg-red-500' :
                                 level === 'MODERATE' ? 'w-2/3 bg-amber-500' :
-                                  level === 'MINOR' ? 'w-1/3 bg-blue-500' : 'w-0'
+                                  level === 'MINOR' ? 'w-1/3 bg-emerald-500' : 'w-0'
                                 }`} />
                             </div>
                           </td>
-                          <td className="py-3 px-4 text-center border-l border-slate-100 print:py-2 print:px-3 print:border-slate-300">
-                            <span className={`px-2 py-0.5 text-[10px] font-black tracking-wide rounded border print:text-slate-800 print:border-slate-800 print:bg-transparent ${getSeverityColor(level)}`}>
+                          <td className="py-3 px-4 text-center border-l border-slate-100 print:py-1 print:px-2 print:border-slate-300">
+                            <span className={`px-2 py-0.5 text-[10px] font-black tracking-wide rounded border ${getSeverityColor(level)}`}>
                               {level}
                             </span>
                           </td>
@@ -603,39 +677,41 @@ export default function App() {
             </div>
 
             {/* Section 3 & 4 Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 print:grid-cols-3 gap-6 pb-6 border-b-2 border-slate-200 break-inside-avoid print:gap-4 print:pb-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 print:grid-cols-3 gap-6 pb-6 border-b-2 border-slate-200 break-inside-avoid print:gap-3 print:pb-2">
 
               <div className="sm:col-span-1 print:col-span-1 border-r border-slate-100 pr-4 print:border-slate-200">
-                <div className="flex items-center gap-3 mb-4 print:mb-2">
+                <div className="flex items-center gap-3 mb-4 print:mb-1">
                   <h3 className="text-xs font-black text-slate-800 tracking-widest uppercase border-b-2 border-slate-200 pb-1 w-full print:text-[10px]">Section 3 — Verdict</h3>
                 </div>
-                <div className={`rounded-xl p-6 text-center h-48 flex flex-col justify-center border-2 print:p-4 print:h-32 ${form.posting === 'Red' ? 'border-red-600 bg-red-50 text-red-900' :
+                <div className={`rounded-xl p-6 text-center h-48 flex flex-col justify-center border-2 print:p-3 print:h-24 ${form.posting === 'Red' ? 'border-red-600 bg-red-50 text-red-900' :
                   form.posting === 'Yellow' ? 'border-amber-500 bg-amber-50 text-amber-900' :
                     'border-emerald-600 bg-emerald-50 text-emerald-900'
                   }`}>
-                  <h2 className="text-3xl font-black mb-1 tracking-tight print:text-xl uppercase">{config.label}</h2>
-                  <p className="text-[10px] font-bold opacity-80 uppercase tracking-widest">{config.sub}</p>
-                  <div className="mt-6 pt-4 border-t border-slate-300 text-xl font-black print:text-sm print:mt-2 print:pt-2">
+                  <h2 className="text-3xl font-black mb-1 tracking-tight print:text-lg uppercase">{config.label}</h2>
+                  <p className="text-[10px] font-bold opacity-80 uppercase tracking-widest print:text-[8px]">{config.sub}</p>
+                  <div className="mt-6 pt-4 border-t border-slate-300 text-xl font-black print:text-sm print:mt-1 print:pt-1">
                     {form.damagePercentage}% Damage
                   </div>
                 </div>
               </div>
 
               <div className="sm:col-span-2 print:col-span-2 pl-2">
-                <div className="flex items-center gap-3 mb-4 print:mb-2">
+                <div className="flex items-center gap-3 mb-4 print:mb-1">
                   <h3 className="text-xs font-black text-slate-800 tracking-widest uppercase border-b-2 border-slate-200 pb-1 w-full print:text-[10px]">Section 4 — Assessment Notes</h3>
                 </div>
-                <div className="space-y-4 print:space-y-3">
-                  <div className="border border-slate-200 rounded-lg p-5 bg-white print:p-3">
+                <div className="space-y-4 print:space-y-2">
+                  <div className="border border-slate-200 rounded-lg p-5 bg-white print:p-2">
                     <div className="text-[9px] font-black text-slate-500 tracking-widest uppercase mb-1 print:text-[8px]">Comments & Observations</div>
                     <div className="text-sm font-medium text-slate-800 leading-relaxed whitespace-pre-wrap print:text-[10px]">{form.comments || 'No comments written.'}</div>
                   </div>
-                  <div className="border border-slate-200 rounded-lg p-5 bg-white print:p-3">
+                  <div className="border border-slate-200 rounded-lg p-5 bg-white print:p-2">
                     <div className="text-[9px] font-black text-slate-500 tracking-widest uppercase mb-1 print:text-[8px]">Detailed Restrictions / Actions</div>
                     <ul className="text-sm font-medium text-slate-800 space-y-1 print:text-[10px]">
                       {form.restrictions.doNotEnter && <li>• Do not enter: <span className="font-bold">{form.restrictions.doNotEnterText}</span></li>}
                       {form.restrictions.briefEntry && <li>• Brief entry allowed for contents: <span className="font-bold">{form.restrictions.briefEntryText}</span></li>}
-                      {(!form.restrictions.doNotEnter && !form.restrictions.briefEntry) && <li className="text-slate-500 italic print:text-slate-800">No specific restrictions documented.</li>}
+                      {form.restrictions.doNotUseFlooded && <li>• Do not use flooded/damaged appliances, devices or services until recertified.</li>}
+                      {form.restrictions.otherRestrictions && <li>• Other restrictions: <span className="font-bold">{form.restrictions.otherRestrictionsText}</span></li>}
+                      {(!form.restrictions.doNotEnter && !form.restrictions.briefEntry && !form.restrictions.doNotUseFlooded && !form.restrictions.otherRestrictions) && <li className="text-slate-500 italic print:text-slate-800">No specific restrictions documented.</li>}
                     </ul>
                   </div>
                 </div>
@@ -643,8 +719,32 @@ export default function App() {
 
             </div>
 
-            <div className="flex justify-between items-end pt-4 pb-4 print:pt-2 print:pb-2">
-              <div className="text-[9px] font-black text-slate-400 tracking-widest uppercase">RDANA-GEN-2026</div>
+            {/* Section 5 - Further Actions */}
+            <div className="mt-6 pt-0 break-inside-avoid print:mt-1">
+               <div className="flex items-center gap-3 mb-4 print:mb-1">
+                  <h3 className="text-xs font-black text-slate-800 tracking-widest uppercase border-b-2 border-slate-200 pb-1 w-full print:text-[10px]">Section 5 — Further Actions</h3>
+               </div>
+               <div className="grid grid-cols-1 sm:grid-cols-2 print:grid-cols-2 gap-4 print:gap-2">
+                 <div className="border border-slate-200 rounded-lg p-5 bg-white print:p-2 col-span-2">
+                    <div className="text-[9px] font-black text-slate-500 tracking-widest uppercase mb-1 print:text-[8px]">Action Items & Recommendations</div>
+                    <ul className="text-sm font-medium text-slate-800 space-y-1 print:text-[10px]">
+                      {form.furtherActions.barricadesNeeded && <li>• Barricades needed: <span className="font-bold">{form.furtherActions.barricadesText || 'Unspecified area'}</span></li>}
+                      {(form.furtherActions.evalStructural || form.furtherActions.evalGeotechnical || form.furtherActions.evalOther) && <li>• Detailed Evaluation: <span className="font-bold">{[form.furtherActions.evalStructural && 'Structural', form.furtherActions.evalGeotechnical && 'Geotechnical', form.furtherActions.evalOther && 'Other'].filter(Boolean).join(', ')}</span></li>}
+                      {form.furtherActions.otherRecommendations && <li>• Other recommendations: <span className="font-bold">{form.furtherActions.otherRecommendationsText || 'None'}</span></li>}
+                    </ul>
+                    {!(form.furtherActions.barricadesNeeded || form.furtherActions.evalStructural || form.furtherActions.evalGeotechnical || form.furtherActions.evalOther || form.furtherActions.otherRecommendations) && <div className="text-slate-500 italic print:text-[10px]">No further actions recommended.</div>}
+                 </div>
+                 {form.furtherActions.commentsFurther && (
+                   <div className="border border-slate-200 rounded-lg p-5 bg-white print:p-2 col-span-2">
+                     <div className="text-[9px] font-black text-slate-500 tracking-widest uppercase mb-1 print:text-[8px]">Additional Comments</div>
+                     <div className="text-sm font-medium text-slate-800 print:text-[10px] whitespace-pre-wrap">{form.furtherActions.commentsFurther}</div>
+                   </div>
+                 )}
+               </div>
+            </div>
+
+            <div className="flex justify-between items-end pt-4 pb-4 print:mt-auto print:pt-4 print:pb-0">
+              <div className="text-[9px] font-black text-slate-400 tracking-widest uppercase">Tracking No. ________________</div>
               <div className="text-center w-64 border-t border-slate-400 pt-2">
                 <div className="text-sm font-black text-slate-800 truncate print:text-xs">{form.inspector || 'Inspector Name'}</div>
                 <div className="text-[9px] font-bold text-slate-500 tracking-widest uppercase">Authorized Assessor</div>
