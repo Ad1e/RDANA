@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import BsuLogo from './assets/bsu-logo.png';
 
@@ -113,6 +113,10 @@ export default function App() {
   const [form, setForm] = useState<RDANAFormData>(defaultForm);
   const [view, setView] = useState<'form' | 'report'>('form');
   const [step, setStep] = useState(0);
+
+  useEffect(() => {
+    document.title = view === 'form' ? 'RDANA Report' : 'RDANA Result';
+  }, [view]);
 
   const update = (key: keyof RDANAFormData, value: any) => setForm(prev => ({ ...prev, [key]: value }));
   const updateNested = (section: 'restrictions' | 'furtherActions', key: string, value: any) =>
@@ -512,33 +516,33 @@ export default function App() {
                 </div>
               </div>
               {form.posting && (
-                <div className={`px-6 py-3 border-2 ${form.posting === 'Red' ? 'border-red-600 text-red-700' :
-                  form.posting === 'Yellow' ? 'border-amber-500 text-amber-700' :
-                    'border-emerald-600 text-emerald-700'
-                  } print:border-2 print:border-black print:bg-transparent print:shadow-none print:px-3 print:py-1`}>
-                  <span className="font-black text-xl flex items-center gap-2 print:text-black print:text-sm uppercase tracking-wider">
+                <div className={`px-6 py-3 border-2 rounded ${form.posting === 'Red' ? 'border-red-600 text-red-700 bg-red-50' :
+                  form.posting === 'Yellow' ? 'border-amber-500 text-amber-700 bg-amber-50' :
+                    'border-emerald-600 text-emerald-700 bg-emerald-50'
+                  } print:border-2 print:px-3 print:py-1`}>
+                  <span className="font-black text-xl flex items-center gap-2 print:text-sm uppercase tracking-wider">
                     {config.label}
                   </span>
                 </div>
               )}
             </div>
 
-            <div className="w-full flex gap-8 md:gap-12 mt-8 pt-6 border-t border-slate-100 print:border-t-0 print:mt-4 print:gap-6">
-              <div><div className="text-[9px] font-black tracking-widest text-slate-400 uppercase pb-1 print:text-slate-600 print:pb-0">Date</div><div className="text-sm font-bold text-slate-800 print:text-black print:text-xs">{form.inspectionDate || '—'}</div></div>
-              <div><div className="text-[9px] font-black tracking-widest text-slate-400 uppercase pb-1 print:text-slate-600 print:pb-0">Time</div><div className="text-sm font-bold text-slate-800 print:text-black print:text-xs">{form.time || '—'}</div></div>
-              <div className="flex-1 max-w-[200px]"><div className="text-[9px] font-black tracking-widest text-slate-400 uppercase pb-1 print:text-slate-600 print:pb-0">Inspector</div><div className="text-sm font-bold text-slate-800 truncate pr-4 print:text-black print:text-xs" title={form.inspector}>{form.inspector || '—'}</div></div>
-              <div className="flex-1"><div className="text-[9px] font-black tracking-widest text-slate-400 uppercase pb-1 print:text-slate-600 print:pb-0">Agency</div><div className="text-sm font-bold text-slate-800 truncate print:text-black print:text-xs" title={form.agencyCampus}>{form.agencyCampus || '—'}</div></div>
+            <div className="w-full flex gap-8 md:gap-12 mt-8 pt-6 border-t border-slate-100 print:border-t print:mt-4 print:gap-6">
+              <div><div className="text-[9px] font-black tracking-widest text-slate-400 uppercase pb-1 print:text-slate-500 print:pb-0">Date</div><div className="text-sm font-bold text-slate-800 print:text-xs">{form.inspectionDate || '—'}</div></div>
+              <div><div className="text-[9px] font-black tracking-widest text-slate-400 uppercase pb-1 print:text-slate-500 print:pb-0">Time</div><div className="text-sm font-bold text-slate-800 print:text-xs">{form.time || '—'}</div></div>
+              <div className="flex-1 max-w-[200px]"><div className="text-[9px] font-black tracking-widest text-slate-400 uppercase pb-1 print:text-slate-500 print:pb-0">Inspector</div><div className="text-sm font-bold text-slate-800 truncate pr-4 print:text-xs" title={form.inspector}>{form.inspector || '—'}</div></div>
+              <div className="flex-1"><div className="text-[9px] font-black tracking-widest text-slate-400 uppercase pb-1 print:text-slate-500 print:pb-0">Agency</div><div className="text-sm font-bold text-slate-800 truncate print:text-xs" title={form.agencyCampus}>{form.agencyCampus || '—'}</div></div>
             </div>
           </div>
 
-          <div className="p-10 space-y-10 print:p-0 print:space-y-4 print:mt-4">
+          <div className="p-10 space-y-10 print:p-6 print:space-y-6 print:mt-2">
 
             {/* Section 1 */}
             <div>
               <div className="flex items-center gap-3 mb-4 print:mb-2">
-                <h3 className="text-xs font-black text-slate-800 tracking-widest uppercase border-b-2 border-slate-200 pb-1 w-full print:border-black print:text-[10px]">Section 1 — Building Description</h3>
+                <h3 className="text-xs font-black text-slate-800 tracking-widest uppercase border-b-2 border-slate-200 pb-1 w-full print:text-[10px]">Section 1 — Building Description</h3>
               </div>
-              <div className="grid grid-cols-2 gap-4 print:gap-2">
+              <div className="grid grid-cols-2 gap-4 print:gap-3">
                 {[
                   { label: 'Building Name', value: form.buildingName },
                   { label: 'Primary Occupancy', value: form.primaryOccupancy.join(', ') || form.otherOccupancy },
@@ -547,9 +551,9 @@ export default function App() {
                   { label: 'Inspection Type', value: form.areasInspected },
                   { label: 'Estimated Damage', value: `${form.damagePercentage}%` },
                 ].map(item => (
-                  <div key={item.label} className="border border-slate-200 rounded-lg p-4 break-inside-avoid print:p-2 print:border-slate-400">
-                    <div className="text-[9px] font-black text-slate-500 tracking-widest uppercase mb-1 print:text-black print:text-[8px]">{item.label}</div>
-                    <div className="text-sm font-bold text-slate-900 print:text-black print:text-xs">{item.value || '—'}</div>
+                  <div key={item.label} className="border border-slate-200 rounded-lg p-4 break-inside-avoid print:p-3">
+                    <div className="text-[9px] font-black text-slate-500 tracking-widest uppercase mb-1 print:text-[8px]">{item.label}</div>
+                    <div className="text-sm font-bold text-slate-900 print:text-xs">{item.value || '—'}</div>
                   </div>
                 ))}
               </div>
@@ -558,35 +562,35 @@ export default function App() {
             {/* Section 2 */}
             <div className="break-inside-avoid">
               <div className="flex items-center gap-3 mb-4 print:mb-2">
-                <h3 className="text-xs font-black text-slate-800 tracking-widest uppercase border-b-2 border-slate-200 pb-1 w-full print:border-black print:text-[10px]">Section 2 — Evaluation Matrix</h3>
+                <h3 className="text-xs font-black text-slate-800 tracking-widest uppercase border-b-2 border-slate-200 pb-1 w-full print:text-[10px]">Section 2 — Evaluation Matrix</h3>
               </div>
-              <div className="border border-slate-200 rounded-lg overflow-hidden print:border-slate-400">
+              <div className="border border-slate-200 rounded-lg overflow-hidden">
                 <table className="w-full text-sm print:text-xs">
-                  <thead className="bg-slate-50 border-b border-slate-200 print:bg-white print:border-slate-400">
+                  <thead className="bg-slate-50 border-b border-slate-200 print:bg-slate-50">
                     <tr>
-                      <th className="text-left font-black text-slate-700 text-[9px] tracking-widest uppercase py-3 px-4 print:py-1 print:px-2 print:text-black">Condition</th>
-                      <th className="text-center font-black text-slate-700 text-[9px] tracking-widest uppercase py-3 px-4 print:py-1 print:px-2 print:text-black">Severity</th>
-                      <th className="text-center font-black text-slate-700 text-[9px] tracking-widest uppercase py-3 px-4 print:py-1 print:px-2 print:text-black">Level</th>
+                      <th className="text-left font-black text-slate-700 text-[9px] tracking-widest uppercase py-3 px-4 print:py-2 print:px-3">Condition</th>
+                      <th className="text-center font-black text-slate-700 text-[9px] tracking-widest uppercase py-3 px-4 print:py-2 print:px-3">Severity</th>
+                      <th className="text-center font-black text-slate-700 text-[9px] tracking-widest uppercase py-3 px-4 print:py-2 print:px-3">Level</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-100 print:divide-slate-300">
+                  <tbody className="divide-y divide-slate-100">
                     {EVAL_CONDITIONS.map(cond => {
                       const level = form.evaluation[cond.id];
                       return (
                         <tr key={cond.id} className="bg-white">
-                          <td className="py-3 px-4 font-bold text-slate-800 border-r border-slate-100 w-1/2 print:py-1 print:px-2 print:border-slate-300 print:text-[10px]">
+                          <td className="py-3 px-4 font-bold text-slate-800 border-r border-slate-100 w-1/2 print:py-2 print:px-3 print:text-[10px]">
                             {cond.label}
                           </td>
-                          <td className="py-3 px-4 w-1/3 print:py-1 print:px-2">
-                            <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden print:h-1 print:bg-slate-200">
+                          <td className="py-3 px-4 w-1/3 print:py-2 print:px-3">
+                            <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden print:h-1.5 print:bg-slate-200">
                               <div className={`h-full transition-all print:bg-black ${level === 'SEVERE' ? 'w-full bg-red-500' :
                                 level === 'MODERATE' ? 'w-2/3 bg-amber-500' :
                                   level === 'MINOR' ? 'w-1/3 bg-blue-500' : 'w-0'
                                 }`} />
                             </div>
                           </td>
-                          <td className="py-3 px-4 text-center border-l border-slate-100 print:py-1 print:px-2 print:border-slate-300">
-                            <span className={`px-2 py-0.5 text-[10px] font-black tracking-wide rounded border print:border-black print:text-black print:bg-transparent ${getSeverityColor(level)}`}>
+                          <td className="py-3 px-4 text-center border-l border-slate-100 print:py-2 print:px-3 print:border-slate-300">
+                            <span className={`px-2 py-0.5 text-[10px] font-black tracking-wide rounded border print:text-slate-800 print:border-slate-800 print:bg-transparent ${getSeverityColor(level)}`}>
                               {level}
                             </span>
                           </td>
@@ -599,16 +603,16 @@ export default function App() {
             </div>
 
             {/* Section 3 & 4 Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pb-6 border-b-2 border-slate-200 break-inside-avoid print:gap-4 print:pb-2 print:border-black">
+            <div className="grid grid-cols-1 sm:grid-cols-3 print:grid-cols-3 gap-6 pb-6 border-b-2 border-slate-200 break-inside-avoid print:gap-4 print:pb-4">
 
-              <div className="md:col-span-1">
+              <div className="sm:col-span-1 print:col-span-1 border-r border-slate-100 pr-4 print:border-slate-200">
                 <div className="flex items-center gap-3 mb-4 print:mb-2">
-                  <h3 className="text-xs font-black text-slate-800 tracking-widest uppercase border-b-2 border-slate-200 pb-1 w-full print:border-black print:text-[10px]">Section 3 — Verdict</h3>
+                  <h3 className="text-xs font-black text-slate-800 tracking-widest uppercase border-b-2 border-slate-200 pb-1 w-full print:text-[10px]">Section 3 — Verdict</h3>
                 </div>
-                <div className={`rounded-xl p-6 text-center h-full flex flex-col justify-center border-2 print:p-2 ${form.posting === 'Red' ? 'border-red-600 bg-red-50 text-red-900' :
+                <div className={`rounded-xl p-6 text-center h-48 flex flex-col justify-center border-2 print:p-4 print:h-32 ${form.posting === 'Red' ? 'border-red-600 bg-red-50 text-red-900' :
                   form.posting === 'Yellow' ? 'border-amber-500 bg-amber-50 text-amber-900' :
                     'border-emerald-600 bg-emerald-50 text-emerald-900'
-                  } print:shadow-none print:border-black print:text-black print:bg-transparent`}>
+                  }`}>
                   <h2 className="text-3xl font-black mb-1 tracking-tight print:text-xl uppercase">{config.label}</h2>
                   <p className="text-[10px] font-bold opacity-80 uppercase tracking-widest">{config.sub}</p>
                   <div className="mt-6 pt-4 border-t border-slate-300 text-xl font-black print:text-sm print:mt-2 print:pt-2">
@@ -617,17 +621,17 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="md:col-span-2">
+              <div className="sm:col-span-2 print:col-span-2 pl-2">
                 <div className="flex items-center gap-3 mb-4 print:mb-2">
-                  <h3 className="text-xs font-black text-slate-800 tracking-widest uppercase border-b-2 border-slate-200 pb-1 w-full print:border-black print:text-[10px]">Section 4 — Assessment Notes</h3>
+                  <h3 className="text-xs font-black text-slate-800 tracking-widest uppercase border-b-2 border-slate-200 pb-1 w-full print:text-[10px]">Section 4 — Assessment Notes</h3>
                 </div>
-                <div className="space-y-4 print:space-y-2">
-                  <div className="border border-slate-200 rounded-lg p-5 bg-white print:p-2 print:border-slate-400">
-                    <div className="text-[9px] font-black text-slate-500 tracking-widest uppercase mb-1 print:text-[8px] print:text-black">Comments & Observations</div>
+                <div className="space-y-4 print:space-y-3">
+                  <div className="border border-slate-200 rounded-lg p-5 bg-white print:p-3">
+                    <div className="text-[9px] font-black text-slate-500 tracking-widest uppercase mb-1 print:text-[8px]">Comments & Observations</div>
                     <div className="text-sm font-medium text-slate-800 leading-relaxed whitespace-pre-wrap print:text-[10px]">{form.comments || 'No comments written.'}</div>
                   </div>
-                  <div className="border border-slate-200 rounded-lg p-5 bg-white print:p-2 print:border-slate-400">
-                    <div className="text-[9px] font-black text-slate-500 tracking-widest uppercase mb-1 print:text-[8px] print:text-black">Detailed Restrictions / Actions</div>
+                  <div className="border border-slate-200 rounded-lg p-5 bg-white print:p-3">
+                    <div className="text-[9px] font-black text-slate-500 tracking-widest uppercase mb-1 print:text-[8px]">Detailed Restrictions / Actions</div>
                     <ul className="text-sm font-medium text-slate-800 space-y-1 print:text-[10px]">
                       {form.restrictions.doNotEnter && <li>• Do not enter: <span className="font-bold">{form.restrictions.doNotEnterText}</span></li>}
                       {form.restrictions.briefEntry && <li>• Brief entry allowed for contents: <span className="font-bold">{form.restrictions.briefEntryText}</span></li>}
@@ -639,11 +643,11 @@ export default function App() {
 
             </div>
 
-            <div className="flex justify-between items-end pt-2 pb-2 print:pt-1 print:pb-1">
-              <div className="text-[9px] font-black text-slate-400 tracking-widest uppercase print:text-black">RDANA-GEN-2026</div>
-              <div className="text-center w-64 border-t border-slate-400 pt-2 print:border-black">
-                <div className="text-sm font-black text-slate-800 truncate print:text-xs print:text-black">{form.inspector || 'Inspector Name'}</div>
-                <div className="text-[9px] font-bold text-slate-500 tracking-widest uppercase print:text-black">Authorized Assessor</div>
+            <div className="flex justify-between items-end pt-4 pb-4 print:pt-2 print:pb-2">
+              <div className="text-[9px] font-black text-slate-400 tracking-widest uppercase">RDANA-GEN-2026</div>
+              <div className="text-center w-64 border-t border-slate-400 pt-2">
+                <div className="text-sm font-black text-slate-800 truncate print:text-xs">{form.inspector || 'Inspector Name'}</div>
+                <div className="text-[9px] font-bold text-slate-500 tracking-widest uppercase">Authorized Assessor</div>
               </div>
             </div>
 
