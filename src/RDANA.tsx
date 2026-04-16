@@ -464,7 +464,7 @@ export default function RDANA() {
               </div>
             </div>
 
-             <div className="flex flex-col sm:flex-row sm:items-end gap-3 pt-2">
+            <div className="flex flex-col sm:flex-row sm:items-end gap-3 pt-2">
               <label className="flex items-center gap-3 cursor-pointer group shrink-0 mb-1 sm:mb-0">
                 <div className={`w-5 h-5 rounded flex items-center justify-center transition-colors ${form.furtherActions.otherRecommendations ? 'bg-gradient-to-br from-red-500 to-red-600 shadow-sm' : 'border-2 border-slate-300 bg-white group-hover:border-red-300'}`}>
                   {form.furtherActions.otherRecommendations && <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
@@ -679,11 +679,11 @@ export default function RDANA() {
             {/* Section 3 & 4 Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-3 print:grid-cols-3 gap-6 pb-6 border-b-2 border-slate-200 break-inside-avoid print:gap-3 print:pb-2">
 
-              <div className="sm:col-span-1 print:col-span-1 border-r border-slate-100 pr-4 print:border-slate-200">
-                <div className="flex items-center gap-3 mb-4 print:mb-1">
+              <div className="sm:col-span-1 print:col-span-1 border-r border-slate-100 pr-4 print:border-slate-200 flex flex-col h-full">
+                <div className="flex items-center gap-3 mb-4 print:mb-1 shrink-0">
                   <h3 className="text-xs font-black text-slate-800 tracking-widest uppercase border-b-2 border-slate-200 pb-1 w-full print:text-[10px]">Section 3 — Verdict</h3>
                 </div>
-                <div className={`rounded-xl p-6 text-center h-48 flex flex-col justify-center border-2 print:p-3 print:h-24 ${form.posting === 'Red' ? 'border-red-600 bg-red-50 text-red-900' :
+                <div className={`rounded-xl p-6 text-center flex-1 flex flex-col justify-center border-2 print:p-3 ${form.posting === 'Red' ? 'border-red-600 bg-red-50 text-red-900' :
                   form.posting === 'Yellow' ? 'border-amber-500 bg-amber-50 text-amber-900' :
                     'border-emerald-600 bg-emerald-50 text-emerald-900'
                   }`}>
@@ -695,8 +695,8 @@ export default function RDANA() {
                 </div>
               </div>
 
-              <div className="sm:col-span-2 print:col-span-2 pl-2">
-                <div className="flex items-center gap-3 mb-4 print:mb-1">
+              <div className="sm:col-span-2 print:col-span-2 pl-2 flex flex-col h-full">
+                <div className="flex items-center gap-3 mb-4 print:mb-1 shrink-0">
                   <h3 className="text-xs font-black text-slate-800 tracking-widest uppercase border-b-2 border-slate-200 pb-1 w-full print:text-[10px]">Section 4 — Assessment Notes</h3>
                 </div>
                 <div className="space-y-4 print:space-y-2">
@@ -721,26 +721,26 @@ export default function RDANA() {
 
             {/* Section 5 - Further Actions */}
             <div className="mt-6 pt-0 break-inside-avoid print:mt-1">
-               <div className="flex items-center gap-3 mb-4 print:mb-1">
-                  <h3 className="text-xs font-black text-slate-800 tracking-widest uppercase border-b-2 border-slate-200 pb-1 w-full print:text-[10px]">Section 5 — Further Actions</h3>
-               </div>
-               <div className="grid grid-cols-1 sm:grid-cols-2 print:grid-cols-2 gap-4 print:gap-2">
-                 <div className="border border-slate-200 rounded-lg p-5 bg-white print:p-2 col-span-2">
-                    <div className="text-[9px] font-black text-slate-500 tracking-widest uppercase mb-1 print:text-[8px]">Action Items & Recommendations</div>
-                    <ul className="text-sm font-medium text-slate-800 space-y-1 print:text-[10px]">
-                      {form.furtherActions.barricadesNeeded && <li>• Barricades needed: <span className="font-bold">{form.furtherActions.barricadesText || 'Unspecified area'}</span></li>}
-                      {(form.furtherActions.evalStructural || form.furtherActions.evalGeotechnical || form.furtherActions.evalOther) && <li>• Detailed Evaluation: <span className="font-bold">{[form.furtherActions.evalStructural && 'Structural', form.furtherActions.evalGeotechnical && 'Geotechnical', form.furtherActions.evalOther && 'Other'].filter(Boolean).join(', ')}</span></li>}
-                      {form.furtherActions.otherRecommendations && <li>• Other recommendations: <span className="font-bold">{form.furtherActions.otherRecommendationsText || 'None'}</span></li>}
-                    </ul>
-                    {!(form.furtherActions.barricadesNeeded || form.furtherActions.evalStructural || form.furtherActions.evalGeotechnical || form.furtherActions.evalOther || form.furtherActions.otherRecommendations) && <div className="text-slate-500 italic print:text-[10px]">No further actions recommended.</div>}
-                 </div>
-                 {form.furtherActions.commentsFurther && (
-                   <div className="border border-slate-200 rounded-lg p-5 bg-white print:p-2 col-span-2">
-                     <div className="text-[9px] font-black text-slate-500 tracking-widest uppercase mb-1 print:text-[8px]">Additional Comments</div>
-                     <div className="text-sm font-medium text-slate-800 print:text-[10px] whitespace-pre-wrap">{form.furtherActions.commentsFurther}</div>
-                   </div>
-                 )}
-               </div>
+              <div className="flex items-center gap-3 mb-4 print:mb-1">
+                <h3 className="text-xs font-black text-slate-800 tracking-widest uppercase border-b-2 border-slate-200 pb-1 w-full print:text-[10px]">Section 5 — Further Actions</h3>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 print:grid-cols-2 gap-4 print:gap-2">
+                <div className="border border-slate-200 rounded-lg p-5 bg-white print:p-2 col-span-2">
+                  <div className="text-[9px] font-black text-slate-500 tracking-widest uppercase mb-1 print:text-[8px]">Action Items & Recommendations</div>
+                  <ul className="text-sm font-medium text-slate-800 space-y-1 print:text-[10px]">
+                    {form.furtherActions.barricadesNeeded && <li>• Barricades needed: <span className="font-bold">{form.furtherActions.barricadesText || 'Unspecified area'}</span></li>}
+                    {(form.furtherActions.evalStructural || form.furtherActions.evalGeotechnical || form.furtherActions.evalOther) && <li>• Detailed Evaluation: <span className="font-bold">{[form.furtherActions.evalStructural && 'Structural', form.furtherActions.evalGeotechnical && 'Geotechnical', form.furtherActions.evalOther && 'Other'].filter(Boolean).join(', ')}</span></li>}
+                    {form.furtherActions.otherRecommendations && <li>• Other recommendations: <span className="font-bold">{form.furtherActions.otherRecommendationsText || 'None'}</span></li>}
+                  </ul>
+                  {!(form.furtherActions.barricadesNeeded || form.furtherActions.evalStructural || form.furtherActions.evalGeotechnical || form.furtherActions.evalOther || form.furtherActions.otherRecommendations) && <div className="text-slate-500 italic print:text-[10px]">No further actions recommended.</div>}
+                </div>
+                {form.furtherActions.commentsFurther && (
+                  <div className="border border-slate-200 rounded-lg p-5 bg-white print:p-2 col-span-2">
+                    <div className="text-[9px] font-black text-slate-500 tracking-widest uppercase mb-1 print:text-[8px]">Additional Comments</div>
+                    <div className="text-sm font-medium text-slate-800 print:text-[10px] whitespace-pre-wrap">{form.furtherActions.commentsFurther}</div>
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="flex justify-between items-end pt-4 pb-4 print:mt-auto print:pt-4 print:pb-0">
